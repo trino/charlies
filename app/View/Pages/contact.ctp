@@ -1,11 +1,27 @@
+<?php
+    include_once("subpages/api.php");
+    $restaurantID = get("rest", 0);
+    if (!isset($restaurants[$restaurantID])){$restaurantID=0;}
+    $thisrest = $restaurants[$restaurantID]["Restaurants"];
+
+
+    //$test =$this->requestAction('/pages/getLocations');
+?>
+
 <div class="row centerall">
     <div class="col-xs-12">
         <div style="transform:skew(-20deg); background:#007FC5;padding:15px 45px;display: inline-block;">
             <h1 class="center" style="color:white;margin:0px;transform:skew(20deg); "><span class="light">Contact</span>
-                Charlie's Chopsticks</h1>
+                <?= $thisrest["name"]; ?></h1>
         </div>
     </div>
 </div>
+<STYLE>
+    .tdto{
+        width:20px;
+        align:center;
+    }
+</STYLE>
 
 <div class="container  push-down-30" style=" padding:20px; opacity: 1;
     filter: alpha(opacity=9);">
@@ -25,43 +41,40 @@
                 <div class="row">
 
 
-                    <img alt="Logo" src="<?php echo $this->webroot; ?>images/logo.png"
-                         style="">
+                    <img alt="Logo" src="<?php echo $this->webroot; ?>images/logo.png" style="">
 
                     <div class="clearfix"><p></p></div>
-                    <span class="glyphicon  glyphicon-earphone"></span>
+                    <span class="glyphicon glyphicon-earphone"></span>
                     <span class="text-dark">(905) 388-9888</span><br>
                     <span class="glyphicon  glyphicon-envelope"></span>
-                    <a class="secondary-link" href="mailto:charlieschopstics@gmail.com"><strong>charlieschopstics@gmail.com</strong></a>
+                    <a class="secondary-link" href="mailto:<?= $thisrest["publicemail"]; ?>"><strong><?= $thisrest["publicemail"]; ?></strong></a>
 
                     <h2 class=""><span class="light">Hours</span></h2>
                     <?php
-                        $hours = $this->requestAction('/pages/getHours');
+                        $hours = array('Restaurant' => $thisrest); //$this->requestAction('/pages/getHours');
                     ?>
-                    <p>Sunday : <strong><?php get_formated_date2($hours['Restaurant']['sunday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['sunday_to']); ?></strong></p>
+                    <TABLE>
+                    <TR><TD>Sunday : </TD><TD><strong><strong><?php get_formated_date2($hours['Restaurant']['sunday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['sunday_to']); ?></strong></TR>
 
+                    <TD>Monday : <TD><strong><?php get_formated_date2($hours['Restaurant']['monday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['monday_to']); ?></strong></strong></TD></TR>
 
-                    <p>Monday : <strong><?php get_formated_date2($hours['Restaurant']['monday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['monday_to']); ?></strong></p>
+                    <TD>Tuesday : <TD><strong><strong><?php get_formated_date2($hours['Restaurant']['tuesday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['tuesday_to']); ?></strong></strong></TD></TR>
 
+                    <TD>Wednesday : <TD><strong><strong><?php get_formated_date2($hours['Restaurant']['wednesday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['wednesday_to']); ?></strong></strong></TD></TR>
 
-                    <p>Tuesday : <strong><?php get_formated_date2($hours['Restaurant']['tuesday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['tuesday_to']); ?></strong></p>
+                    <TD>Thursday : <TD><strong><strong><?php get_formated_date2($hours['Restaurant']['thursday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['thursday_to']); ?></strong></strong></TD></TR>
 
+                    <TD>Friday : <TD><strong><strong><?php get_formated_date2($hours['Restaurant']['friday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['friday_to']); ?></strong></strong></TD></TR>
 
-                    <p>Wednesday : <strong><?php get_formated_date2($hours['Restaurant']['wednesday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['wednesday_to']); ?></strong></p>
-
-                    <p>Thursday : <strong><?php get_formated_date2($hours['Restaurant']['thursday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['thursday_to']); ?></strong></p>
-
-                    <p>Friday : <strong><?php get_formated_date2($hours['Restaurant']['friday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['friday_to']); ?></strong></p>
-
-                    <p>Saturday : <strong><?php get_formated_date2($hours['Restaurant']['saturday_from']); ?>
-                            to <?php get_formated_date2($hours['Restaurant']['saturday_to']); ?></strong></p>
-
+                    <TD>Saturday : <TD><strong><strong><?php get_formated_date2($hours['Restaurant']['saturday_from']); ?>
+                            </strong></TD><TD class="tdto" align="center"><strong>to</strong></TD><TD><strong><?php get_formated_date2($hours['Restaurant']['saturday_to']); ?></strong></strong></TD></TR>
+                    </TABLE>
                 </div>
             </div>
 
@@ -105,74 +118,54 @@
                 </form>
 
                 <hr class="divider divider-about"><center>
-                <h2 class="no-margin">Charlie's Locations</h2><br/>
+                <h2 class="no-margin">Locations</h2><br/>
                 </center>
-
+<?php
+    foreach($locations as $location){
+        $location = $location['Locations'];
+        $restaurant = findrestuarant($restaurants, $location['restaurant_id']);
+?>
                 <div class="col-md-6 ">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet box red">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-spoon"></i>Charlie's Chopsticks Hamilton
+                                <i class="fa fa-spoon"></i><?= $restaurant["name"] . " " . $location["name"]; ?>
                             </div>
                             <div class="tools">
 
                             </div>
                         </div>
                         <div class="portlet-body">
-
-
                             <address>
-
-                                970 Upper James Street<br>
-                                Hamilton, ON L9C 3A5<br>
-                                (905) 388-9888
+                                <?= $location["address"] . "<BR>" . $location["city"] . ", " . $location["province"] . " " . $location["postal"] . "<BR>" . $location["phone"]; ?>
                             </address>
 
                         </div>
                     </div>
                     <!-- END SAMPLE TABLE PORTLET-->
                 </div>
-
-                <div class="col-md-6">
-                    <!-- BEGIN SAMPLE TABLE PORTLET-->
-                    <div class="portlet box red">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-spoon"></i>Charlie's Chopsticks Welland
-                            </div>
-                            <div class="tools">
-
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-
-                            <p>
-                                20 Thorold Road<br>
-                                Welland, ON L3C 3T3<br>
-                                (905) 735-9888</p>
-
-                        </div>
-                    </div>
-                </div>
+<?php } ?>
             </div>
         </div>
     </div>
 </div>
 <?php
-    function get_formated_date2($to_format)
-    {
+    function get_formated_date2($to_format) {
         $arr_hours = explode(':', $to_format);
         if ($arr_hours[0] > 11) {
             if ($arr_hours[0] == 12) {
                 echo $arr_hours[0] . ':' . $arr_hours[1] . ' PM';
-            } else
+            } else {
+                if ($arr_hours[0] < 22) {echo "0";}
                 echo ($arr_hours[0] - 12) . ':' . $arr_hours[1] . ' PM';
+            }
         } else {
             if ($arr_hours[0] == 00) {
                 echo '12' . ':' . $arr_hours[1] . ' AM';
-            } else
+            } else {
                 echo $arr_hours[0] . ':' . $arr_hours[1] . ' AM';
+            }
         }
     }
 

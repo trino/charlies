@@ -11,14 +11,15 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <?php
+        $restdata = $this->requestAction('/pages/getLocations');
+
         $generic = $this->requestAction('/pages/getGeneric');
         if (ucfirst($this->params['action']) == 'Index') {
             $gtitle = 'Home';
         } else
             $gtitle = ucfirst($this->params['action']);
     ?>
-    <meta property="og:image"
-          content="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . $this->webroot . 'images/logo.png'; ?>"/>
+    <meta property="og:image" content="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . $this->webroot . 'images/logo.png'; ?>"/>
     <meta property="og:title" content="<?php if (isset($title)) {
         echo $title . " - Charilie's Chopsticks";
     } else {
@@ -220,7 +221,7 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a href="<?php echo $this->webroot; ?>">
-                <h4 style="color:white;padding-top:7px;">Charlie's Chopsticks <span style="color:#d64635;">Beta</span></h4>
+                <h4 style="color:white;padding-top:7px;"><?= $generic["title"]; ?> <span style="color:#d64635;">Beta</span></h4>
             </a>
         </div>
         <!-- END LOGO -->
@@ -318,7 +319,7 @@
             <div class="modal-content  center">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3><span class="light">Register</span> to Charlie's Chopsticks</h3>
+                    <h3><span class="light">Register</span> to <?= $generic["title"]; ?></h3>
                     <hr class="divider">
                 </div>
                 <div class="modal-body">
@@ -362,7 +363,7 @@
             <div class="modal-content  center">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h3><span class="light">Login</span> to Charlie's Chopsticks</h3>
+                    <h3><span class="light">Login</span> to <?= $generic["title"]; ?></h3>
                 </div>
                 <div class="modal-body">
                     <form action="<?php echo $this->webroot; ?>restaurants/login" id="loginform" class="push-down-15"
@@ -901,7 +902,7 @@
         <!-- BEGIN FOOTER -->
         <div class="page-footer" style="height: 40px;background:#333;border-top:6px solid #007FC5;">
             <div class="page-footer-inner">
-                2015 &copy; Charlie's Chopsticks / Developed by <a href="http://trinoweb.com">Trino Web</a>
+                2015 &copy; <?= $generic["title"]; ?> / Developed by <a href="http://trinoweb.com">Trino Web</a>
             </div>
             <div style="float: right;">
                 <a class="footer__link--small" href="https://goo.gl/maps/dgDT3">Find Us On Google Maps</a>

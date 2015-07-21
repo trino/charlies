@@ -1,3 +1,7 @@
+<?php
+    include_once("subpages/api.php");
+    $thisrest = $restaurants[0]["Restaurants"];
+?>
 <script>
 
 
@@ -183,25 +187,22 @@
                              src="<?php echo $this->webroot; ?>images/logo.png"/>
 
                         <br> <br>
-                        <address>
-                            <strong>Charlie's Chopsticks Hamilton</strong><br>
-                            970 Upper James Street<br>
-                            Hamilton, ON L9C 3A5<br>
-                            P: (905) 388-9888
-                        </address>
+
+                        <?php
+                        foreach($locations as $location){
+                            $location = $location['Locations'];
+                            $restaurant = findrestuarant($restaurants, $location['restaurant_id']);
+                        ?>
 
                         <address>
-                            <strong>Charlie's Chopsticks Welland</strong><br>
-                            20 Thorold Road<br>
-                            Welland, ON L3C 3T3<br>
-                            (905) 735-9888
+                            <strong><?= $restaurant["name"] . " " . $location["name"]; ?></strong><br>
+                            <?= $location["address"] . "<BR>" . $location["city"] . ", " . $location["province"] . " " . $location["postal"] . "<BR>P: " . $location["phone"]; ?>
                         </address>
-
+                        <?php } ?>
 
                         <address>
                             <strong>Email</strong><br>
-                            <a href="mailto:#">
-                                charlieschopsticks@gmail.com</a>
+                            <a href="mailto:<?= $thisrest["publicemail"]; ?>"><?= $thisrest["publicemail"]; ?></a>
                         </address>
                     </center>
 
@@ -1146,68 +1147,77 @@
 
                     <ul class="listnone">
                         <li class="active">
+                            <LABEL>
                             <input type="radio"
                                    name="order_type" <?php if ($order_type == 'Pickup') echo "checked='checked'"; ?>
                                    value="Pickup"
                                    onchange="if($(this).is(':checked')){$('.df').val('0');$('#df').hide(); var tax = $('.tax').text();var grandtotal = 0; var subtotal = $('.subtotal').text(); grandtotal = Number(grandtotal)+Number(tax)+Number(subtotal);  $('.grandtotal').text(grandtotal.toFixed(2));$('.grandtotal').val(grandtotal.toFixed(2)); }"/>
                             Pickup
+                            </LABEL>
                         </li>
                         <li class="">
+                            <LABEL>
                             <input type="radio" <?php if ($order_type == 'delivery') echo "checked='checked'"; ?>
                                    name="order_type" value="delivery"
                                    onchange="if($(this).is(':checked')){$('#df').show(); var df ='<?php echo number_format(str_replace('$', '', $res['Restaurant']['delivery_fee']), '2'); ?>'; var tax = $('.tax').text(); var grandtotal = 0;var subtotal = $('.subtotal').text();  grandtotal = Number(grandtotal)+Number(df)+Number(subtotal)+Number(tax);  $('.df').val(df);$('.grandtotal').text(grandtotal.toFixed(2));$('.grandtotal').val(grandtotal.toFixed(2)); }"/>
                             For Delivery
+                            </LABEL>
                         </li>
 
                     </ul>
                     
                     <ul class="listnone">
-                    
-                        <li class="active">
-                            <input type="radio"
-                                   name="city_receipt" <?php if ($city == 'Hamilton') echo "checked='checked'"; ?>
-                                   value="Hamilton"/>
-                            Hamilton
-                        </li>
-                        <li class="">
-                            <input type="radio" <?php if ($city == 'Welland') echo "checked='checked'"; ?>
-                                   name="city_receipt" value="Welland"
-                                   />
-                            Welland
-                        </li>
+
+                        <?php
+                        $class="active";
+                        foreach($locations as $location){
+                            $location = $location['Locations'];
+                            $restaurant = findrestuarant($restaurants, $location['restaurant_id']);
+                        ?>
+                            <li class="<?= $class; ?>">
+                                <LABEL>
+                                    <input type="radio"
+                                           name="city_receipt" <?php if ($city == $location["city"]) echo "checked='checked'"; ?>
+                                           value="<?= $location["city"]; ?>"/>
+                                    <?= $location["name"]; ?>
+                                </LABEL>
+                            </li>
+                        <?php
+                            $class="";
+                        } ?>
 
                     </ul>
 
                     <div class="invoice-block">
                         <div class="totals">
-                            <ul class="list-unstyled amounts">
-                                <li>
-                                    <strong>Subtotal&nbsp;</strong>:&nbsp;$<span class="subtotal"><?php if ($order) {
+                            <TABLE>
+                                <TR>
+                                    <TD><strong>Subtotal&nbsp;</strong>:</TD><TD>&nbsp;$<span class="subtotal"><?php if ($order) {
                                             echo $order['Reservation']['subtotal'];
                                         } else { ?>0.00<?php } ?></span>
                                     <input type="hidden" value="<?php if ($order) {
                                         echo $order['Reservation']['subtotal'];
-                                    } else { ?>0.00<?php } ?>" class="subtotal" name="subtotal"/>
-                                </li>
-                                <li>
-                                    <strong>Tax&nbsp;</strong>:&nbsp;$<span class="tax"><?php if ($order) {
+                                    } else { ?>0.00<?php } ?>" class="subtotal" name="subtotal"/></TD>
+                                </TR>
+                                <TR>
+                                    <TD><strong>Tax&nbsp;</strong>:</TD><TD>&nbsp;$<span class="tax"><?php if ($order) {
                                             echo $order['Reservation']['tax'];
                                         } else { ?>0.00<?php } ?></span>&nbsp;(<span
                                         id="tax"><?php echo str_replace('$', '', $res['Restaurant']['tax']); ?></span>%)
                                     <input type="hidden" class="tax" name="tax" value="<?php if ($order) {
                                         echo $order['Reservation']['tax'];
-                                    } else { ?>0.00<?php } ?>"/>
-                                </li>
+                                    } else { ?>0.00<?php } ?>"/></TD>
+                                </TR>
 
-                                <li id="df" style="display: none;">
-                                    <strong>Delivery
-                                        Fee&nbsp;</strong>:&nbsp;$<?php echo number_format(str_replace('$', '', $res['Restaurant']['delivery_fee']), 2); ?>
+                                <TR id="df" style="display: none;">
+                                    <TD><strong>Delivery
+                                        Fee&nbsp;</strong>:</TD><TD>&nbsp;$<?php echo number_format(str_replace('$', '', $res['Restaurant']['delivery_fee']), 2); ?>
                                     <input type="hidden" name="delivery_fee" class="df"
                                            value="<?php if ($order) echo str_replace('$', '', $res['Restaurant']['delivery_fee']); else echo "0.00"; ?>"/>
-
-                                </li>
-                                <li>
-                                    <strong>Total</strong>&nbsp;:&nbsp;$<span class="grandtotal"><?php if ($order) {
+                                    </TD>
+                                </TR>
+                                <TR>
+                                    <TD><strong>Total</strong>&nbsp;:</TD><TD>&nbsp;$<span class="grandtotal"><?php if ($order) {
                                             echo $order['Reservation']['g_total'];
                                         } else {
                                             echo "0.00";
@@ -1216,18 +1226,17 @@
                                         echo $order['Reservation']['g_total'];
                                     } else {
                                         echo '0.00';
-                                    } ?>" class="grandtotal" name="g_total"/>
-                                </li>
-
+                                    } ?>" class="grandtotal" name="g_total"/></TD>
+                                </TR>
+                            </TABLE>
                         </div>
-                        <div class="submits">
+                        <div class="submits" align="center">
 
 
-                            <input <?php if ($closed){ ?>disabled="disabled"<?php } ?> type="submit"
+                            <input <?php if ($closed){ ?>disabled="disabled"<?php } ?> type="submit" style="width: 48%"
                                    value="Order" class="btn btn-lg red  hidden-print margin-bottom-5"/>
 
-                            <a style="" class="btn btn-sm grey hidden-print margin-bottom-5"
-                               href="">
+                            <a class="btn btn-sm grey hidden-print margin-bottom-5" style="width: 48%" href="" onclick="return confirm('Are you sure you want to erase your order?');">
                                 Restart
                             </a>
 
@@ -1256,7 +1265,7 @@
             </div>
             <div class="portlet-body">
 
-
+                <span class='st_googleplus_large' displayText='GooglePlus'></span>
                 <span class='st_whatsapp_large' displayText='WhatsApp'></span>
                 <span class='st_facebook_large' displayText='Facebook'></span>
                 <span class='st_twitter_large' displayText='Tweet'></span>

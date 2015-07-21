@@ -1,3 +1,7 @@
+<?php
+    include_once("/subpages/api.php");
+?>
+
 <!--<div class="breadcrumbs">
   <div class="container">
     <div class="row">
@@ -67,7 +71,7 @@ Welcome, <?php echo $this->Session->read('name');?>
                      
                     ?>
                     <strong>Restaurant Image</strong><br /><br />
-                    <img id="picture" src="<?php echo $this->webroot;?>images/restaurants/<?php echo $pic;?>" /><br />
+                    <img id="picture" src="<?= restimage($this->webroot, $res); ?>" title="<?php echo $this->webroot;?>images/restaurants/<?php echo $pic;?>" /><br />
                     <input type="hidden" class="picture" name="picture" value="<?php echo $res['Restaurant']['picture'];?>" />
                     <a href="javascript:void(0);" id="uploadbtn" class="btn btn-success">Change Image</a>
                 </p>
@@ -76,13 +80,13 @@ Welcome, <?php echo $this->Session->read('name');?>
                 <strong>Restaurant Info</strong><br /><br />
                 <p class="inputs">
                 
-                    <input type="text" name="name" placeholder="Restaurant Name" value="<?php echo $res['Restaurant']['name'];?>" />
-                    <input type="text" name="email" placeholder="Restaurant Email" value="<?php echo $res['Restaurant']['email'];?>" />
-                    <input type="text" name="street" placeholder="Street Address" value="<?php echo $res['Restaurant']['street'];?>" />
-                    <input type="text" name="city" placeholder="City" value="<?php echo $res['Restaurant']['city'];?>" />
-                    <input type="text" name="prov_state" placeholder="State/Province" value="<?php echo $res['Restaurant']['prov_state'];?>" />
-                    <input type="text" name="pos_zip" placeholder="Postal Code" value="<?php echo $res['Restaurant']['pos_zip'];?>" />
-                    <input type="text" name="phone" placeholder="Phone" value="<?php echo $res['Restaurant']['phone'];?>" />
+                    <input type="text" name="name" placeholder="Restaurant Name" title=="Restaurant Name" value="<?php echo $res['Restaurant']['name'];?>" />
+                    <input type="text" name="email" placeholder="Restaurant Email" title="Restaurant Email" value="<?php echo $res['Restaurant']['email'];?>" />
+                    <input type="text" name="street" placeholder="Street Address" title="Street Address" value="<?php echo $res['Restaurant']['street'];?>" />
+                    <input type="text" name="city" placeholder="City" title=="City" value="<?php echo $res['Restaurant']['city'];?>" />
+                    <input type="text" name="prov_state" placeholder="State/Province" title="State/Province" value="<?php echo $res['Restaurant']['prov_state'];?>" />
+                    <input type="text" name="pos_zip" placeholder="Postal Code" title="Postal Code" value="<?php echo $res['Restaurant']['pos_zip'];?>" />
+                    <input type="text" name="phone" placeholder="Phone" title="Phone" value="<?php echo $res['Restaurant']['phone'];?>" />
                     
                     
                 </p>
@@ -90,9 +94,8 @@ Welcome, <?php echo $this->Session->read('name');?>
                 <div class="col-xs-12 col-sm-4">
                 <p class="inputs">
                 <strong>&nbsp;</strong><br /><br />
-                    
                     <!--input type="text" name="cuisine" placeholder="Cuisine" value="<?php echo $res['Restaurant']['cuisine'];?>" /-->
-                    <textarea name="description" placeholder="Description"><?php echo $res['Restaurant']['description'];?></textarea>                    
+                    <textarea name="description" placeholder="Description" title="Description"><?php echo $res['Restaurant']['description'];?></textarea>
                 </p>
                 
                 </div>
