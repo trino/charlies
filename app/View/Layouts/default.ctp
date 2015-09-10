@@ -81,12 +81,9 @@
     <link href="<?php echo $this->webroot; ?>profile/assets/global/css/components.css" id="style_components"
           rel="stylesheet" type="text/css"/>
     <link href="<?php echo $this->webroot; ?>profile/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/layout.css" rel="stylesheet"
-          type="text/css"/>
-    <link id="style_color" href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/themes/darkblue.css"
-          rel="stylesheet" type="text/css"/>
-    <link href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/custom.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->webroot; ?>profile/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo $this->webroot; ?>css/timepicker.css" rel="stylesheet">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css"/>
     <link rel="stylesheet" href="<?php echo $this->webroot; ?>lightSlider/css/lightSlider.css"/>
@@ -104,13 +101,9 @@
     <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/jquery-migrate.min.js"
             type="text/javascript"></script>
     <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-    <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js"
-            type="text/javascript"></script>
-    <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/bootstrap/js/bootstrap.min.js"
-            type="text/javascript"></script>
-    <script
-        src="<?php echo $this->webroot; ?>profile/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
-        type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"  type="text/javascript"></script>
     <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
             type="text/javascript"></script>
     <script src="<?php echo $this->webroot; ?>profile/assets/global/plugins/jquery.blockui.min.js"

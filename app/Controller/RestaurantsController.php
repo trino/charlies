@@ -783,13 +783,12 @@ class RestaurantsController extends AppController
         else
         $emails->to('charlieswelland@gmail.com');
         $emails->send($message);*/
-        if($q['Reservation']['city_receipt'] == 'Hamilton')
-        {
-            $this->CustomMail->sendMail($q2['Restaurant']['email'],'New Order Placed',$message);
+        if($q['Reservation']['city_receipt'] == 'Hamilton') {
+            $this->CustomMail->sendMail($q2['Restaurant']['email'],'New Order Placed',$message, true);
+        } else {
+            $this->CustomMail->sendMail('charlieswelland@gmail.com', 'New Order Placed', $message, true);
+            $this->CustomMail->sendMail('info@trinoweb.com', 'New Order Placed', $message);
         }
-        else
-        $this->CustomMail->sendMail('charlieswelland@gmail.com','New Order Placed',$message);
-	        $this->CustomMail->sendMail('info@trinoweb.com','New Order Placed',$message);
         $this->redirect('success_order/' . $id);
         //die('here');
 

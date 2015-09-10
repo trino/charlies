@@ -5,7 +5,7 @@ var path = window.location.pathname;
 if(path.replace('ordering_system','')!=path)
 var base_url = 'http://localhost/ordering_system/';
 else
-var base_url = 'http://charlieschopsticks.com/';
+var base_url = 'http://' + window.location.host + '/';
 
 
 
