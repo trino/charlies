@@ -10,7 +10,7 @@ $(function () {
     if (path.replace('charlies', '') != path)
         var base_url = 'http://localhost/charlies/';
     else
-        var base_url = 'http://charlieschopsticks.com/';
+        var base_url = 'http://' + window.location.host + '/';
 
 
 //Script for order submission page

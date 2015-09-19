@@ -2,10 +2,11 @@ define(['jquery','jqueryui/core'], function (jQuery) {
 
 
 var path = window.location.pathname;
-if(path.replace('ordering_system','')!=path)
-var base_url = 'http://localhost/ordering_system/';
-else
-var base_url = 'http://charlieschopsticks.com/';
+if(path.replace('ordering_system','')!=path){
+	var base_url = 'http://localhost/ordering_system/';
+}else{
+	var base_url = 'http://' + window.location.host + '/';
+}
 
 
 
