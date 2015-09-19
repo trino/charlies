@@ -153,12 +153,11 @@ class PagesController extends AppController {
     {
         
     }
-    function getCurrentUrl()
-    {
+    function getCurrentUrl() {
         echo  $this->params['action'];die();
     }
-    function suggest()
-    {
+
+    function suggest() {
         $name = $_POST['name'];
         $fname = $_POST['fname'];
         $femail = $_POST['femail'];
@@ -186,19 +185,18 @@ class PagesController extends AppController {
         $this->Session->setFlash('Suggestion successfully sent to '.$femail);
         $this->redirect('/');
     }
-    function test()
-    {
+
+    function test() {
         return $this->render('test');
     }
-    function getHours()
-    {
-        
+
+    function getHours() {
         $this->loadModel('Restaurant');
         return $this->Restaurant->find('first');
     }
-    function testing()
-    {
-        $this->CustomMail->test('info@trinoweb.com','test','<b>Test</b>ing');
+
+    function testing() {
+        $this->CustomMail->sendMail('info@trinoweb.com','test','<b>Test</b>ing', true);
         die();
     }
 
