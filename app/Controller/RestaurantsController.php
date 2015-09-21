@@ -709,8 +709,7 @@ class RestaurantsController extends AppController
         $this->set('menu', $this->Menu);
     }
 
-    function confirm_order($id)
-    {
+    function confirm_order($id) {
         $this->loadModel('Reservation');
         $q = $this->Reservation->findById($id);
         App::uses('CakeEmail', 'Network/Email');
@@ -724,9 +723,9 @@ class RestaurantsController extends AppController
                 $time_arr = explode(':', $date_arr[0]);
                 if ($time_arr[0] == '12') {
                     $_POST['order_till'] = date('Y-m-d') . ' 00:' . $time_arr[1] . ':00';
-                } else
+                } else {
                     $_POST['order_till'] = date('Y-m-d') . ' ' . $time_arr[0] . ':' . $time_arr[1] . ':00';
-
+                }
 
             } else {
                 $time_arr = explode(':', $date_arr[0]);
@@ -783,14 +782,15 @@ class RestaurantsController extends AppController
         else
         $emails->to('charlieswelland@gmail.com');
         $emails->send($message);*/
-        if($q['Reservation']['city_receipt'] == 'Hamilton') {
+        $Place = $q['Reservation']['city_receipt'];
+        if($Place == 'Hamilton') {
             $this->CustomMail->sendMail($q2['Restaurant']['email'],'New Order Placed',$message, true);
         } else {
             $this->CustomMail->sendMail('charlieswelland@gmail.com', 'New Order Placed', $message, true);
             $this->CustomMail->sendMail('info@trinoweb.com', 'New Order Placed', $message);
         }
         $this->redirect('success_order/' . $id);
-        //die('here');
+        $this->CustomMail->sendSMS_Twilio("9055315331", "An order has been placed for Charlies Chopsticks in " . $Place, true);
 
     }
 
