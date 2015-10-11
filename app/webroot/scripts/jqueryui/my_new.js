@@ -587,9 +587,10 @@ $(function () {
                     cnt++;
 
             });
-
+             
             var title = tit1.split("_");
             var qty = Number(tis.parent().find('.span_' + id).text());
+            
             tnn = title[1].split(' x(');
             title[1] = tnn[0];
 
@@ -624,7 +625,7 @@ $(function () {
     });
 
     $('.inp').keyup(function (e) {
-
+        
         var thi = $(this);
         var banner = thi.parent().parent().parent().find('zxcx');
         var nxt = thi.parent().parent().parent().parent().parent().parent().parent().find('.nxt_button');

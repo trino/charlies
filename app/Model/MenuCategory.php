@@ -6,7 +6,7 @@ class MenuCategory extends AppModel{
                                  'foreignKey'=>'cat_id',
                                  'dependent'=>true,
                                  'exclusive'=>true,
-                                 'order'=>'display_order',
+                                 'order'=>['display_order','menu_item'],
                                  'conditions'=>'menu_item <> ""'
                                 )
                                      );

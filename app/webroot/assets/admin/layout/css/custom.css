@@ -1,6 +1,7 @@
+
 /* here you can put your own css to customize and override the theme */
 
-/***
+/*** 
 Rounded Portlets
 ***/
 /*
@@ -31,7 +32,7 @@ Change Quick Sidebar Width
 .page-quick-sidebar-open.page-quick-sidebar-push-content .page-sidebar-wrapper {
   margin-left: -370px;
 }
-
+<ins></ins>
 .page-quick-sidebar-open.page-quick-sidebar-push-content .page-footer {
   margin-right: 370px;
   margin-left: -370px;

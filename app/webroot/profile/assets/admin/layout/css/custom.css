@@ -58,3 +58,9 @@ Change Quick Sidebar Width
   margin-left: -370px;
 }
 */
+.sameasone{
+       left: -3px;
+    padding: 14px;
+    position: relative;
+    top: -1px;
+}

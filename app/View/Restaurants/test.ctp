@@ -3,9 +3,109 @@
     $thisrest = $restaurants[0]["Restaurants"];
 ?>
 <script>
-
+    function copyinput(inp1,inp2)
+    {
+       
+        $('#boxes_'+inp2).parent().find('.subin').each(function(){
+            $(this).find('input:checkbox').removeAttr('checked');
+            $(this).find('.allspan').text('1');
+        });
+         $('#boxes_'+inp2).val('');
+        var alp = ($('#boxes_'+inp1).val()).toUpperCase();
+        var ths = $('#td_'+inp2);
+        
+        var arr = alp.split('');
+       
+       for(i=0; i< arr.length; i++ )
+       {
+            ths.find('.btnxx').each(function()
+            {
+               
+               var al = $(this).find('div a');
+                if(al.attr('title') == arr[i])
+                {
+                    //alert(al.attr('title'));
+                    //al.click();
+                    var tit = al.attr('title');
+                    var box = al.parent().parent().parent().parent().find('.inp');
+                    var id = al.attr('id').replace('buttons_', '');
+                    var mn = box.val();
+                    var max = box.attr('maxlength');
+                    var cnt = 0;
+                    var qty = Number($(this).parent().find('.span_' + id).text());
+                    var price = Number($('.span_' + id).attr('id').replace('sprice_', ""));
+                    var tit1 = al.parent().parent().find('#extra_' + id).attr('title');
+                    //var title = tit1.split("_");
+                    // title[1]= title[1].replace(' x('+qty+")","");
+                    var nxt = box.parent().parent().parent().parent().parent().parent().parent().find('.nxt_button');
+            
+                    if (mn.length >= max) {
+            
+                        alert('Cannot select more than ' + max);
+            
+                    }
+                    else {
+                        al.parent().find('#extra_' + id).attr('checked', 'checked');
+                        var tis = al;
+                        mtit = mn + tit;
+                        box.val(mtit);
+                        var mnt = mtit.split('');
+                        mnt.forEach(function (t, i) {
+                            if (t == tit)
+                                cnt++;
+            
+                        });
+                         
+                        var title = tit1.split("_");
+                        var qty = Number(tis.parent().find('.span_' + id).text());
+                        
+                        tnn = title[1].split(' x(');
+                        title[1] = tnn[0];
+            
+                        tis.parent().children().find('.span_' + id).text(cnt);
+            
+                        var price = Number($('.span_' + id).attr('id').replace('sprice_', ""));
+            
+            
+                        newtitle = title[1] + " x(" + cnt + ")";
+                        newprice = Number(price) * Number(cnt);
+            
+            
+                        newtitle = title[0] + "_" + newtitle + "_" + newprice + "_" + title[3];
+                        newtitle = newtitle.replace(" x(1)", "");
+                        //alert(newtitle);
+                        tis.parent().parent().find('.spanextra_' + id).attr('title', newtitle);
+            
+            
+                    }
+                    var total_td = box.parent().parent().parent().find('td').length;
+                    var td = Number(nxt.attr('title'));
+                    if (isNaN(td))
+                        td = 1;
+                    if (mn.length + 1 == max)
+                        if (td == total_td)
+                            box.parent().parent().parent().parent().parent().parent().parent().find('.add_end').click();
+                        else
+                            nxt.click();
+        //$(this).parent().parent().parent().parent().find('.inp').focus();
+                }
+            });
+       }
+        
+        
+    }
 
     $(function () {
+    
+        var press = jQuery.Event("keyup");
+        press.ctrlKey = false;
+        press.which = 46;
+    
+        $('#check').keyup(function(e){
+    
+            alert(e.which);
+        }).trigger(press);
+
         $('.modal').on('shown.bs.modal', function () {
             $('input:text:visible:first', this).focus();
         })
@@ -808,10 +908,12 @@
                                                                                                        class="inp"
                                                                                                        id="boxes_<?php echo $subm['MenuCategory']['id']; ?>"
                                                                                                        maxlength="<?php echo ($subm['MenuCategory']['itemno']) ? $subm['MenuCategory']['itemno'] : '1'; ?>"
-                                                                                                       style="margin-bottom:20px;text-transform: uppercase; width:200px;PADDING:10PX;font-size: 18px;FONT-WEIGHT:BOLD;border:1px solid #dadada;"/><br/>
-
+                                                                                                       style="margin-bottom:20px;text-transform: uppercase; width:200px;PADDING:10PX;font-size: 18px;FONT-WEIGHT:BOLD;border:1px solid #dadada;"/>
+                                                                                                <?php if($subm['MenuCategory']['parent']!=0){?><a href="javascript:void(0);" onclick="copyinput('<?php echo $subm['MenuCategory']['parent'];?>','<?php echo $subm['MenuCategory']['id']; ?>')" class="btn btn-success sameasone" >Same as 1st</a><?php }?>
+                                                                                                <br />
                                                                                                 <div
                                                                                                     style="display: none;">
+                                                                                                    <!-- Old
                                                                                                     <input
                                                                                                         type="checkbox"
                                                                                                         class="chk"
@@ -820,6 +922,16 @@
                                                                                                         id="<?php echo $subm['MenuCategory']['id']; ?>"
                                                                                                         title="___"
                                                                                                         value="<?php echo ($key != 0) ? "<br/> " . $subm['MenuCategory']['title'] : $subm['MenuCategory']['title']; ?>"/>
+                                                                                                -->
+                                                                                                    <input
+                                                                                                        type="checkbox"
+                                                                                                        class="chk"
+                                                                                                        checked="checked"
+                                                                                                        style="display: none;"
+                                                                                                        id="<?php echo $subm['MenuCategory']['id']; ?>"
+                                                                                                        title="___"
+                                                                                                        value="<?php echo ($key != 0) ? " " . $subm['MenuCategory']['title'] : $subm['MenuCategory']['title']; ?>"/>
+                                                                                                
                                                                                                 </div>
                                                                                                 <a href="javascript:void(0);" <?php /*onclick="$($(this).parent().children('div:eq(0)')).toggle('slow'); $('.extra-<?php echo $subm['MenuCategory']['id'];?>').each(function(){$(this).removeAttr('checked');}) "*/
                                                                                                 ?> ><strong><?php echo $subm['MenuCategory']['title']; ?></strong></a> <?php if ($subm['MenuCategory']['description'] && $subm['MenuCategory']['description'] != 'undefined') { ?>:<?php } ?>
@@ -884,7 +996,7 @@
                                                                                                                                 name="extra"
                                                                                                                                 style="display:none;"
                                                                                                                                 class="extra-<?php echo $subm['MenuCategory']['id']; ?> spanextra_<?php echo $m['id']; ?>"
-                                                                                                                                title="<?php echo $m['id'] . "_<br/>(" . $alpha[$k] . ") " . $m['menu_item'] ."_" . $m['price'] . "_" . $subm['MenuCategory']['title']; ?>"
+                                                                                                                                title="<?php echo $m['id'] . "_ " . $m['menu_item'] ."_" . $m['price'] . "_" . $subm['MenuCategory']['title']; ?>"
                                                                                                                                 id="extra_<?php echo $m['id']; ?>"/>
                                                                                                                             &nbsp;&nbsp;<?php if ($m['price']) echo $m['menu_item'] . "  (+ $" . number_format(str_replace('$', '', $m['price']), 2) . ")"; else {
                                                                                                                                 echo $m['menu_item'];
@@ -926,7 +1038,7 @@
                                                                                                                                 value=""
                                                                                                                                 name="extra_<?php echo $subm['MenuCategory']['id']; ?>"
                                                                                                                                 class="extra-<?php echo $subm['MenuCategory']['id']; ?>"
-                                                                                                                                title="<?php echo $m['id'] . "_<br/>(" . $alpha[$k] . ") ". $m['menu_item'] ."_" . $m['price'] . "_" . $subm['MenuCategory']['title']; ?>"
+                                                                                                                                title="<?php echo $m['id'] . "_ ". $m['menu_item'] ."_" . $m['price'] . "_" . $subm['MenuCategory']['title']; ?>"
                                                                                                                                 id="extra_<?php echo $m['id']; ?>"/>
                                                                                                                             &nbsp;&nbsp;<?php if ($m['price']) echo $m['menu_item'] . "  (+ $" . number_format(str_replace('$', '', $m['price']), 2) . ")"; else {
                                                                                                                                 echo $m['menu_item'];
